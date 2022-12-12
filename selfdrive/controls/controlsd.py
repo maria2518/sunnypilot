@@ -879,20 +879,25 @@ class Controls:
 
     self.update_button_timers(CS.buttonEvents)
     self.CS_prev = CS
+    
+    
+  def prueba(self):
+  doc = open("data.csv",'w')
+  doc.write("leftBlinker: "+"\t"+"vEgo: "+ "\t"+"steeringAngleDeg: "+"\t"+"cc: "+"\n")
+  doc.write(+ self.data_sample().leftBlinker+"\t"+ self.data_sample().vEgo+"\t"+ self.data_sample().steeringAngleDeg+"\t"+self.CC.hudControl.setSpeed+"\n")
+  doc.close()
+
 
   def controlsd_thread(self):
-    doc = open("data.csv",'w')
-    doc.write("leftBlinker: "+"\t"+"vEgo: "+"\t"+"steeringAngleDeg: "+"\t"+"cc: "+"\n")
     while True:
       self.step()
       self.rk.monitor_time()
       self.prof.display()
-      doc.write(self.data_sample().leftBlinker+"\t"+ self.data_sample().vEgo+"\t"+ self.data_sample().steeringAngleDeg+"\t"+self.CC.hudControl.setSpeed+"\n")
-      
 
 def main(sm=None, pm=None, logcan=None):
   controls = Controls(sm, pm, logcan)
   controls.controlsd_thread()
+  controls.prueba()
 
 
 if __name__ == "__main__":
