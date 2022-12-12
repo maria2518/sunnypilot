@@ -882,10 +882,10 @@ class Controls:
     
     
   def prueba(self):
-  doc = open("data.csv",'w')
-  doc.write("leftBlinker: "+"\t"+"vEgo: "+ "\t"+"steeringAngleDeg: "+"\t"+"cc: "+"\n")
-  doc.write(+ self.data_sample().leftBlinker+"\t"+ self.data_sample().vEgo+"\t"+ self.data_sample().steeringAngleDeg+"\t"+self.CC.hudControl.setSpeed+"\n")
-  doc.close()
+    doc = open("data.csv",'w')
+    doc.write("leftBlinker: "+"\t"+"vEgo: "+ "\t"+"steeringAngleDeg: "+"\t"+"cc: "+"\n")
+    doc.write(+ self.data_sample().leftBlinker+"\t"+ self.data_sample().vEgo+"\t"+ self.data_sample().steeringAngleDeg+"\t"+self.CC.hudControl.setSpeed+"\n")
+    doc.close()
 
 
   def controlsd_thread(self):
