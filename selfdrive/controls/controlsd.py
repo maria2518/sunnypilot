@@ -881,18 +881,20 @@ class Controls:
     self.CS_prev = CS
     
     
-  def prueba(self):
+   
+  def controlsd_thread(self):
     doc = open("data.csv",'w')
     doc.write("leftBlinker: "+"\t"+"vEgo: "+ "\t"+"steeringAngleDeg: "+"\t"+"cc: "+"\n")
-    doc.write(+ self.data_sample().leftBlinker+"\t"+ self.data_sample().vEgo+"\t"+ self.data_sample().steeringAngleDeg+"\t"+self.CC.hudControl.setSpeed+"\n")
-    doc.close()
-
-
-  def controlsd_thread(self):
     while True:
       self.step()
+      #CS = self.data_sample()
       self.rk.monitor_time()
       self.prof.display()
+      #doc.write(str(self.CS.leftBlinker)+"\t"+ str(self.CS.vEgo)+"\t"+ str(self.CS.steeringAngleDeg)+"\t"+str(self.CC.hudControl.setSpeed)+"\n")
+      doc.write(str(self.CS.leftBlinker)+"\t"+ str(self.CS.vEgo)+"\t"+ str(self.CS.steeringAngleDeg)+"\n")
+      
+
+      
 
 def main(sm=None, pm=None, logcan=None):
   controls = Controls(sm, pm, logcan)
