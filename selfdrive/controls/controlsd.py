@@ -2,6 +2,7 @@
 import os
 import math
 from typing import SupportsFloat
+import datetime as dt
 
 from cereal import car, log
 from common.numpy_fast import clip
@@ -885,16 +886,18 @@ class Controls:
   def controlsd_thread(self):
     doc = open("data.csv",'w')
     doc.write("leftBlinker: "+"\t"+"vEgo: "+ "\t"+"steeringAngleDeg: "+"\t"+"cc: "+"\n")
+    time_start = dt.datetime.now()
     while True:
+      time_now = dt.datetime.now()
+      time=(time_now - time_start)
       self.step()
-      #CS = self.data_sample()
+      CS = self.data_sample()
       self.rk.monitor_time()
       self.prof.display()
-      #doc.write(str(self.CS.leftBlinker)+"\t"+ str(self.CS.vEgo)+"\t"+ str(self.CS.steeringAngleDeg)+"\t"+str(self.CC.hudControl.setSpeed)+"\n")
-      doc.write(str(self.CS.leftBlinker)+"\t"+ str(self.CS.vEgo)+"\t"+ str(self.CS.steeringAngleDeg)+"\n")
-      
-
-      
+      if (time.seconds) == 10:
+        doc.write(str(CS.leftBlinker)+"\t"+ str(CS.vEgo)[:5]+"\t"+ str(CS.steeringAngleDeg)[:5]+"\t"+str(self.CC.hudControl.setSpeed)[:5]+"\n")
+        time_start = dt.datetime.now()
+    doc.close()
 
 def main(sm=None, pm=None, logcan=None):
   controls = Controls(sm, pm, logcan)
