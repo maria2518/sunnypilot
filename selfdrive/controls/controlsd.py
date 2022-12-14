@@ -880,23 +880,29 @@ class Controls:
 
     self.update_button_timers(CS.buttonEvents)
     self.CS_prev = CS
-    
+    return CS, CC
     
    
   def controlsd_thread(self):
-    doc = open("data.csv",'w')
+    KS = car.CarState.new_message()
+    KC = car.CarState.new_message()
+    contador = 0
+    doc = open("data_14_12.txt",'a')
     doc.write("leftBlinker: "+"\t"+"vEgo: "+ "\t"+"steeringAngleDeg: "+"\t"+"cc: "+"\n")
-    time_start = dt.datetime.now()
+    #time_start = dt.datetime.now()
     while True:
-      time_now = dt.datetime.now()
-      time=(time_now - time_start)
-      self.step()
-      CS = self.data_sample()
+      #time_now = dt.datetime.now()
+      #time=(time_now - time_start)
+      KS, KC = self.step()
+      #CS = self.data_sample()
       self.rk.monitor_time()
       self.prof.display()
-      if (time.seconds) == 10:
-        doc.write(str(CS.leftBlinker)+"\t"+ str(CS.vEgo)[:5]+"\t"+ str(CS.steeringAngleDeg)[:5]+"\t"+str(self.CC.hudControl.setSpeed)[:5]+"\n")
-        time_start = dt.datetime.now()
+      #if (time.seconds) == 10:
+      if (contador%5) ==0:
+        str_lB = ("1" if KS.leftBlinker else "0")
+        doc.write(str(KS.leftBlinker)+"\t"+ str(KS.vEgo)[:5]+"\t"+ str(KS.steeringAngleDeg)[:5]+"\t"+str(KC.hudControl.setSpeed)[:5]+"\n")
+      #time_start = dt.datetime.now()
+      contador = contador + 1 
     doc.close()
 
 def main(sm=None, pm=None, logcan=None):
